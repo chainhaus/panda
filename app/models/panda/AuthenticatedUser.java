@@ -63,11 +63,11 @@ public class AuthenticatedUser extends BaseUser  {
 //		return user;
 //	}
 	
-//	public boolean hasRole(SecurityRole role) {
-//		List<? extends Role> roles = getRoles();
-//		return roles.contains(role);
-//	}
-//	
+	public boolean hasRole(SecurityRole role) {
+		List<? extends Role> roles = getRoles();
+		return roles.contains(role);
+	}
+	
 //	public boolean hasPermission(UserPermission permission) {
 //		List<? extends Permission> permissions = getPermissions();
 //		return permissions.contains(permission);

@@ -1,4 +1,4 @@
-package security.panda;
+package security.panda.deadbolt;
 
 import java.util.HashMap;
 import java.util.Map;

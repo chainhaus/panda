@@ -1,4 +1,4 @@
-package controllers;
+package controllers.panda;
 
 import play.mvc.*;
 

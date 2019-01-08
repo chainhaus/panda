@@ -25,3 +25,8 @@ libraryDependencies += "com.googlecode.libphonenumber" % "libphonenumber" % "8.8
 libraryDependencies += "javax.mail" % "mail" % "1.4.7"
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.197"
+
+// https://mvnrepository.com/artifact/com.auth0/java-jwt
+libraryDependencies += "com.auth0" % "java-jwt" % "3.3.0"
+
+libraryDependencies += "org.projectlombok" % "lombok" % "1.18.4" % "provided"

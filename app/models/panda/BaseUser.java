@@ -35,6 +35,14 @@ import play.data.format.Formats;
 @MappedSuperclass
 public abstract class BaseUser extends BaseModel implements Subject {
 	
+	public Organization getOrg() {
+		return org;
+	}
+
+	public void setOrg(Organization org) {
+		this.org = org;
+	}
+
 	private static String globalSalt = "8ffc9477-23e4-4a41-8a87-6a77c52c0de1";
 	
 	@ManyToOne
