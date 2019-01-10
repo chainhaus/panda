@@ -74,12 +74,15 @@ public class AuthService extends BaseService {
                     .withIssuer("airrefer.com")
                     .withClaim("email", user.getEmail())
                     .withClaim("jti", user.getJtiToken())
+                    //Binding user fname lname for show in dashboard.
+                    .withClaim("fname", user.getFname())
+                    .withClaim("lname", user.getLname())
                     //Binding profile picture
                     .withClaim("profile_image", user.getPicURL())
                     //Binding user roles
                     .withArrayClaim("roles", userRoleNames.stream().toArray(String[]::new))
                     //.withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusHours(4).toInstant()))
-                    .withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusMinutes(2).toInstant()))
+                    .withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusSeconds(50).toInstant()))
                     .sign(algorithm);
         } catch (UnsupportedEncodingException exception) {
             //UTF-8 encoding not supported
