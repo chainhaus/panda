@@ -1,6 +1,7 @@
 package controllers.panda;
 
 import java.io.UnsupportedEncodingException;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -34,6 +35,7 @@ public class LoginController extends Controller{
         LoginForm loginAttempt = Json.fromJson(json,LoginForm.class);
         AuthenticatedUser user = auth.authenticateLoginAttempt(loginAttempt);
         if(user !=null) {
+
 			ObjectNode result = Json.newObject();
 			result.put("access_token", auth.generateJWTToken(user));
 			return ok(result);

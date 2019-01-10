@@ -18,6 +18,7 @@ import security.panda.jwt.JwtValidator;
 import security.panda.jwt.VerifiedJwt;
 
 import static play.mvc.Results.forbidden;
+import static play.mvc.Results.unauthorized;
 
 public class JwtFilter extends Filter {
     private static final String HEADER_AUTHORIZATION = "Authorization";
@@ -56,7 +57,7 @@ public class JwtFilter extends Filter {
         F.Either<security.panda.jwt.JwtValidator.Error, VerifiedJwt> res = jwtValidator.verify(token);
 
         if (res.left.isPresent()) {
-            return CompletableFuture.completedFuture(forbidden(res.left.get().toString()));
+            return CompletableFuture.completedFuture(unauthorized(res.left.get().toString()));
         }
 
         return nextFilter.apply(requestHeader.withAttrs(requestHeader.attrs().put(Attrs.VERIFIED_JWT, res.right.get())));

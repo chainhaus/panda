@@ -38,6 +38,9 @@ public class JwtValidatorImpl implements JwtValidator {
             //Invalid signature/claims
             Logger.error("f=JwtValidatorImpl, event=verify, exception=JWTVerificationException, msg={}",
                     exception.getMessage());
+            if(exception.getMessage().contains("expired")){
+                return F.Either.Left(Error.TOKEN_EXPIRED);
+            }
             return F.Either.Left(Error.ERR_INVALID_SIGNATURE_OR_CLAIM);
         }
     }
