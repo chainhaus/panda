@@ -28,14 +28,12 @@ public class LoginController extends Controller{
      */
     public Result signin() throws UnsupportedEncodingException {
         JsonNode json = request().body().asJson();
-        
-        if (json == null) 
+        if (json == null) {
             return forbidden();
-   
+        }
         LoginForm loginAttempt = Json.fromJson(json,LoginForm.class);
         AuthenticatedUser user = auth.authenticateLoginAttempt(loginAttempt);
         if(user !=null) {
-
 			ObjectNode result = Json.newObject();
 			result.put("access_token", auth.generateJWTToken(user));
 			return ok(result);
@@ -43,9 +41,7 @@ public class LoginController extends Controller{
 	        Logger.error("Authentication failed, attempt JSON: ", json.toString());
 	        return forbidden(ResponseUtil.createResponse("Wrong user credentials", true));
         }
-
     }
-
 
     public Result signup(){
         Logger.info("********* New User Sign Up ******** You can use any database store to register the User"+request().body().asJson().toString());

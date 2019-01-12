@@ -34,7 +34,6 @@ public class AuthService extends BaseService {
     }
 
     public AuthenticatedUser authenticateLoginAttempt(LoginForm loginAttempt) {
-
         return authenticateUser(loginAttempt.getUsername(), loginAttempt.getPassword());
     }
 
@@ -44,15 +43,12 @@ public class AuthService extends BaseService {
         if (user == null) {
             return null;
         }
-
         if (user.isDisabledByAdmin() || user.isDisabledByUser()) {
             return null;
         }
-
         if (!user.authenticate(enteredPassword)) {
             return null;
         }
-
         user.setLastLogin(new Date());
         Ebean.update(user);
         return user;
@@ -62,7 +58,6 @@ public class AuthService extends BaseService {
     public String generateJWTToken(AuthenticatedUser user) {
         String token = "";
         String secret = conf.getString("play.http.secret.key");
-
         //Reading user roles as string array to pass with JWT token.
         List<String> userRoleNames = user.getRoles().stream()
                 .filter(Objects::nonNull)
@@ -81,24 +76,14 @@ public class AuthService extends BaseService {
                     .withClaim("profile_image", user.getPicURL())
                     //Binding user roles
                     .withArrayClaim("roles", userRoleNames.stream().toArray(String[]::new))
-                    //.withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusHours(4).toInstant()))
-                    .withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusSeconds(50).toInstant()))
+                    .withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusHours(4).toInstant()))
+                    //.withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusSeconds(10).toInstant()))
                     .sign(algorithm);
         } catch (UnsupportedEncodingException exception) {
-            //UTF-8 encoding not supported
+            Logger.error("Exception in JWT Generation : "+exception);
         } catch (JWTCreationException exception) {
-            //Invalid Signing configuration / Couldn't convert Claims.
+            Logger.error("Exception in JWT Generation : "+exception);
         }
-
         return token;
-    }
-
-    public String readRoles(List<? extends Role> roles) {
-        StringBuilder stringBuilder  = new StringBuilder();
-        roles.forEach(role->{
-            stringBuilder.append(role.getName());
-            stringBuilder.append(",");
-        });
-        return stringBuilder.toString();
     }
 }

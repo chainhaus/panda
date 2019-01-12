@@ -13,7 +13,6 @@ public class JwtControllerHelperImpl implements JwtControllerHelper{
 
     private static final String HEADER_AUTHORIZATION = "Authorization";
     private static final String BEARER = "Bearer ";
-    private static final String ERR_AUTHORIZATION_HEADER = "ERR_AUTHORIZATION_HEADER";
     private JwtValidator jwtValidator;
 
     @Inject
@@ -27,7 +26,6 @@ public class JwtControllerHelperImpl implements JwtControllerHelper{
 
         if (!authHeader.filter(ah -> ah.contains(BEARER)).isPresent()) {
             Logger.error("f=JwtControllerHelperImpl, event=verify, error=authHeaderNotPresent");
-            //return forbidden(ERR_AUTHORIZATION_HEADER);
         }
 
         String token = authHeader.map(ah -> ah.replace(BEARER, "")).orElse("");
