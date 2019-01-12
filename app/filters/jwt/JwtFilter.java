@@ -9,7 +9,7 @@ import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 import javax.inject.Inject;
 import akka.stream.Materializer;
-import panda.services.AuthService;
+import panda.services.AuthenticationService;
 import play.Logger;
 import play.libs.F;
 import play.mvc.*;
@@ -27,11 +27,11 @@ public class JwtFilter extends Filter {
     private static final String ROUTE_MODIFIER_NO_JWT_FILTER_TAG = "noJwtFilter";
     private static final String ERR_AUTHORIZATION_HEADER = "ERR_AUTHORIZATION_HEADER";
     private JwtValidator jwtValidator;
-    private AuthService auth;
+    private AuthenticationService auth;
     TypedKey<VerifiedJwt> VERIFIED_JWT = TypedKey.<VerifiedJwt>create("verifiedJwt");
 
     @Inject
-    public JwtFilter(Materializer mat, JwtValidator jwtValidator, AuthService auth) {
+    public JwtFilter(Materializer mat, JwtValidator jwtValidator, AuthenticationService auth) {
         super(mat);
         this.jwtValidator = jwtValidator;
         this.auth = auth;

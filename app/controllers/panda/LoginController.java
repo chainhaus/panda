@@ -1,7 +1,6 @@
 package controllers.panda;
 
 import java.io.UnsupportedEncodingException;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -11,18 +10,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.panda.AuthenticatedUser;
 import panda.forms.LoginForm;
 import panda.helpers.ResponseUtil;
-import panda.services.AuthService;
+import panda.services.AuthenticationService;
 import play.Logger;
-import play.libs.F;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import security.panda.jwt.JwtValidator;
-import security.panda.jwt.VerifiedJwt;
 
 public class LoginController extends Controller{
 
-    @Inject private AuthService auth;
+    @Inject private AuthenticationService auth;
     
     /*
      * Signin() extracts checks for JSON content in the body, binds it to a LoginForm and
