@@ -1,5 +1,6 @@
 package filters.jwt;
 
+import play.libs.typedmap.TypedKey;
 import play.mvc.Filter;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class JwtFilter extends Filter {
     private static final String ERR_AUTHORIZATION_HEADER = "ERR_AUTHORIZATION_HEADER";
     private JwtValidator jwtValidator;
     private AuthService auth;
+    TypedKey<VerifiedJwt> VERIFIED_JWT = TypedKey.<VerifiedJwt>create("verifiedJwt");
 
     @Inject
     public JwtFilter(Materializer mat, JwtValidator jwtValidator, AuthService auth) {
@@ -60,6 +62,6 @@ public class JwtFilter extends Filter {
             return CompletableFuture.completedFuture(unauthorized(res.left.get().toString()));
         }
 
-        return nextFilter.apply(requestHeader.withAttrs(requestHeader.attrs().put(Attrs.VERIFIED_JWT, res.right.get())));
+        return nextFilter.apply(requestHeader.withAttrs(requestHeader.attrs().put(VERIFIED_JWT, res.right.get())));
     }
 }
