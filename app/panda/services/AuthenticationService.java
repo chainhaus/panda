@@ -37,7 +37,7 @@ import security.panda.jwt.VerifiedJwt;
 import security.panda.jwt.VerifiedJwtImpl;
 
 @Singleton
-public class AuthService extends BaseService implements JwtValidator, JwtControllerHelper {
+public class AuthenticationService extends BaseService implements JwtValidator, JwtControllerHelper {
 
     private String secret;
     private JWTVerifier verifier;
@@ -45,7 +45,7 @@ public class AuthService extends BaseService implements JwtValidator, JwtControl
     private static final String BEARER = "Bearer ";
 
     @Inject
-    public AuthService(Environment env, Config conf, ApplicationLifecycle al) throws UnsupportedEncodingException {
+    public AuthenticationService(Environment env, Config conf, ApplicationLifecycle al) throws UnsupportedEncodingException {
         super(env, conf, al);
         Logger.info("Global salt set");
 
@@ -119,7 +119,7 @@ public class AuthService extends BaseService implements JwtValidator, JwtControl
             return F.Either.Right(verifiedJwt);
         } catch (JWTVerificationException exception) {
             //Invalid signature/claims
-            Logger.error("f=AuthService, event=verify, exception=JWTVerificationException, msg={}",
+            Logger.error("f=AuthenticationService, event=verify, exception=JWTVerificationException, msg={}",
                     exception.getMessage());
             if(exception.getMessage().contains("expired")){
                 return F.Either.Left(Error.TOKEN_EXPIRED);
@@ -133,7 +133,7 @@ public class AuthService extends BaseService implements JwtValidator, JwtControl
         Optional<String> authHeader =  request.getHeaders().get(HEADER_AUTHORIZATION);
 
         if (!authHeader.filter(ah -> ah.contains(BEARER)).isPresent()) {
-            Logger.error("f=AuthService, event=verify, error=authHeaderNotPresent");
+            Logger.error("f=AuthenticationService, event=verify, error=authHeaderNotPresent");
         }
 
         String token = authHeader.map(ah -> ah.replace(BEARER, "")).orElse("");
