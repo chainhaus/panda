@@ -13,9 +13,12 @@ import panda.forms.LoginForm;
 import panda.helpers.ResponseUtil;
 import panda.services.AuthService;
 import play.Logger;
+import play.libs.F;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import security.panda.jwt.JwtValidator;
+import security.panda.jwt.VerifiedJwt;
 
 public class LoginController extends Controller{
 
